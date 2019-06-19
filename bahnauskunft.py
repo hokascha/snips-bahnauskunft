@@ -39,7 +39,8 @@ class Bahnauskunft:
                 ziel =  slot[0].slot_value.value.value
         except:
                 ziel = "Berlin Ostbahnhof"
-
+        print "Start: ".start
+        print "Ziel: ".ziel
         api_url = "{0}cb=processFahrtmoeglichkeiten&nrCons=3&S={1}&SBH=1&Z={2}&ZBH=1&journeyProducts=1023&wTime=&widget=1&start=1&now={3}&encoding=utf-8".format(
 	       self.api_base_url,
             start,
