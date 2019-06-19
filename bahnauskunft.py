@@ -11,7 +11,7 @@ import re
 class Bahnauskunft:
 
     def __init__(self, config):
-	#https://reiseauskunft.bahn.de//bin/query.exe/dn?cb=processFahrtmoeglichkeiten&nrCons=3&S=Tübingen%20Hechinger%20Eck&SBH=1&Z=Hauptbahnhof&ZBH=1&journeyProducts=1023&wTime=&widget=1&start=1&now=1560866580&encoding=utf-8
+        #https://reiseauskunft.bahn.de//bin/query.exe/dn?cb=processFahrtmoeglichkeiten&nrCons=3&S=Tübingen%20Hechinger%20Eck&SBH=1&Z=Hauptbahnhof&ZBH=1&journeyProducts=1023&wTime=&widget=1&start=1&now=1560866580&encoding=utf-8
         self.api_base_url = "https://reiseauskunft.bahn.de//bin/query.exe/dn?"
         try:
             self.default_city = config['global']['default_city']
@@ -38,7 +38,7 @@ class Bahnauskunft:
             for (slot_value, slot) in intent_message.slots.items():
                 ziel =  slot[0].slot_value.value.value
         except:
-               ziel = "Berlin Ostbahnhof"
+                ziel = "Berlin Ostbahnhof"
 
         api_url = "{0}cb=processFahrtmoeglichkeiten&nrCons=3&S={1}&SBH=1&Z={2}&ZBH=1&journeyProducts=1023&wTime=&widget=1&start=1&now={3}&encoding=utf-8".format(
 	       self.api_base_url,
@@ -50,20 +50,15 @@ class Bahnauskunft:
             r = requests.get(api_url)
             regex = r"= (\{.*\});"
             matches = re.finditer(regex, r.content, re.MULTILINE | re.DOTALL)
-	    for matchNum, match in enumerate(matches, start=1):
-	    
-	       print ("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()))
-	    
-	       for groupNum in range(0, len(match.groups())):
-		groupNum = groupNum + 1
-		
-		#print ("Group {groupNum} found at {start}-{end}: {group}".format(groupNum = groupNum, start = match.start(groupNum), end = match.end(groupNum), group = match.group(groupNum)))
-
-		json_obj = json.loads(match.group(groupNum))
-                json_obj['status'] = "ok"
-               
-                print(json_obj)
-		return json_obj
+            for matchNum, match in enumerate(matches, start=1):
+                print ("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()))
+                for groupNum in range(0, len(match.groups())):
+                    groupNum = groupNum + 1
+    
+                    json_obj = json.loads(match.group(groupNum))
+                    json_obj['status'] = "ok"
+                   
+                    return json_obj
 
         except (requests.exceptions.ConnectionError,ValueError):
             return {"status": "error"}
