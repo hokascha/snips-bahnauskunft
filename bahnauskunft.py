@@ -49,7 +49,7 @@ class Bahnauskunft:
         try:
             r = requests.get(api_url)
             regex = r"= (\{.*\});"
-            matches = re.finditer(regex, r.content, re.MULTILINE | re.DOTALL)
+            matches = re.finditer(regex, r.content.decode('utf-8'), re.MULTILINE | re.DOTALL)
             for matchNum, match in enumerate(matches, start=1):
                 print ("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum = matchNum, start = match.start(), end = match.end(), match = match.group()))
                 for groupNum in range(0, len(match.groups())):
