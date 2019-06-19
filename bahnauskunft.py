@@ -16,7 +16,7 @@ class Bahnauskunft:
         try:
             self.default_city = config['global']['default_city']
         except:
-            self.default_city = "Berlin"
+            self.default_city = ""
         try:
             self.default_start = config['global']['default_start_station']
         except:
@@ -33,10 +33,10 @@ class Bahnauskunft:
 
     def get_auskunft(self, intent_message):
         nowtime = time.mktime(datetime.datetime.today().timetuple())
-        start = self.default_start
+        start = self.default_city + " " + self.default_start
         try:
             for (slot_value, slot) in intent_message.slots.items():
-                ziel =  slot[0].slot_value.value.value
+                ziel = self.default_city + " " + slot[0].slot_value.value.value
         except:
                 ziel = "Berlin Ostbahnhof"
         print("Start: "+start)
