@@ -1,4 +1,5 @@
 [global]
 default_city=
+default_start_station=
 [secret]
 
